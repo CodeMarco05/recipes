@@ -2,10 +2,10 @@
   "name": "recipes",
   "version": "1.0.0",
   "description": "Recipes app for saving recipes (just test)",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
-    "start": "node app.js",
-    "dev": "nodemon app.js"
+    "start": "MODE=production node app.js",
+    "dev": "MODE=development nodemon app.js"
   },
   "keywords": [],
   "author": "",
