@@ -7,13 +7,15 @@ const cors = require('cors')
 const RecipeModel = require('./models/recipe_model');
 const coloredPrint = require('./lib/colored_print');
 
+//routes for the server
 const recipeRoutes = require('./lib/routes/recipe');
 
+//starting prints
 if(process.env.MODE == 'production') {
 	coloredPrint.blue('Starting in production mode');
 	dotenv.config({ path: './.env.production'});
 }else {
-	coloredPrint.blue('Starting in development mode');
+	coloredPrint.yellow('Starting in development mode');
 	dotenv.config({ path: './.env.development'});
 }
 
@@ -23,10 +25,10 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
+//bind the routes to the server and setup the middleware
 app.use('/recipes', checkApiKey, recipeRoutes);
 
 const port = 3000;
-
 const dbConnectorString = process.env.CONNECTION_MONGO_DB;
 
 if (!dbConnectorString) {
@@ -60,7 +62,6 @@ function checkApiKey(req, res, next) {
 		next();
 		return;
 	}
-
 	const key = req.query.key;
 	if (key !== process.env.API_KEY) {
 		return res.status(401).send('Unauthorized');
